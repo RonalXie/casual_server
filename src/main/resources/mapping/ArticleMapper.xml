@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ronalxie.casual_server.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.ronalxie.casual_server.entity.ArticleDo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sid" jdbcType="BIGINT" property="sid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="abs" jdbcType="VARCHAR" property="abs" />
+    <result column="cover" jdbcType="VARCHAR" property="cover" />
+    <result column="views" jdbcType="INTEGER" property="views" />
+    <result column="user_sid" jdbcType="BIGINT" property="userSid" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ronalxie.casual_server.entity.ArticleDo">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sid, title, abs, cover, views, user_sid, create_time, update_time, delete_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+    insert into article (id, sid, title, 
+      abs, cover, views, 
+      user_sid, create_time, update_time, 
+      delete_time, content)
+    values (#{id,jdbcType=INTEGER}, #{sid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{abs,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER}, 
+      #{userSid,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="abs != null">
+        abs,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="views != null">
+        views,
+      </if>
+      <if test="userSid != null">
+        user_sid,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="abs != null">
+        #{abs,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="views != null">
+        #{views,jdbcType=INTEGER},
+      </if>
+      <if test="userSid != null">
+        #{userSid,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+    update article
+    <set>
+      <if test="sid != null">
+        sid = #{sid,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="abs != null">
+        abs = #{abs,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="views != null">
+        views = #{views,jdbcType=INTEGER},
+      </if>
+      <if test="userSid != null">
+        user_sid = #{userSid,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+    update article
+    set sid = #{sid,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      abs = #{abs,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      views = #{views,jdbcType=INTEGER},
+      user_sid = #{userSid,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+    update article
+    set sid = #{sid,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      abs = #{abs,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR},
+      views = #{views,jdbcType=INTEGER},
+      user_sid = #{userSid,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
