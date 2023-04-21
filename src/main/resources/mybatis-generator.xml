@@ -16,7 +16,7 @@
                         password="123456">
         </jdbcConnection>
         <!--        生成Model类存放位置-->
-        <javaModelGenerator targetPackage="com.ronalxie.casual.entity" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.ronalxie.casual_server.entity" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -25,11 +25,13 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!--        生成Dao类存放位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.ronalxie.casual.mapper" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.ronalxie.casual_server.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--        生成对应表及列名-->
-<!--        <table tableName="article" domainObjectName="Article" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
+        <table tableName="article" domainObjectName="ArticleDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>
         <table tableName="user" domainObjectName="UserDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>
+        <table tableName="file" domainObjectName="FileDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>
+        <table tableName="tag" domainObjectName="TagDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>
     </context>
 </generatorConfiguration>

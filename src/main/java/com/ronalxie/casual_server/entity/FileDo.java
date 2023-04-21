@@ -2,20 +2,18 @@ package com.ronalxie.casual_server.entity;
 
 import java.util.Date;
 
-public class ArticleDo {
+public class FileDo {
     private Integer id;
 
     private Long sid;
 
     private String name;
 
-    private String abs;
+    private String bucket;
 
-    private String cover;
+    private String size;
 
-    private Integer views;
-
-    private Byte top;
+    private String url;
 
     private Long userSid;
 
@@ -24,8 +22,6 @@ public class ArticleDo {
     private Date updateTime;
 
     private Date deleteTime;
-
-    private String content;
 
     public Integer getId() {
         return id;
@@ -51,36 +47,28 @@ public class ArticleDo {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getAbs() {
-        return abs;
+    public String getBucket() {
+        return bucket;
     }
 
-    public void setAbs(String abs) {
-        this.abs = abs == null ? null : abs.trim();
+    public void setBucket(String bucket) {
+        this.bucket = bucket == null ? null : bucket.trim();
     }
 
-    public String getCover() {
-        return cover;
+    public String getSize() {
+        return size;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover == null ? null : cover.trim();
+    public void setSize(String size) {
+        this.size = size == null ? null : size.trim();
     }
 
-    public Integer getViews() {
-        return views;
+    public String getUrl() {
+        return url;
     }
 
-    public void setViews(Integer views) {
-        this.views = views;
-    }
-
-    public Byte getTop() {
-        return top;
-    }
-
-    public void setTop(Byte top) {
-        this.top = top;
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
     }
 
     public Long getUserSid() {
@@ -113,13 +101,5 @@ public class ArticleDo {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
     }
 }

@@ -2,30 +2,18 @@ package com.ronalxie.casual_server.entity;
 
 import java.util.Date;
 
-public class ArticleDo {
+public class TagDo {
     private Integer id;
 
     private Long sid;
 
     private String name;
 
-    private String abs;
-
-    private String cover;
-
-    private Integer views;
-
-    private Byte top;
-
-    private Long userSid;
-
     private Date createTime;
 
     private Date updateTime;
 
     private Date deleteTime;
-
-    private String content;
 
     public Integer getId() {
         return id;
@@ -51,46 +39,6 @@ public class ArticleDo {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getAbs() {
-        return abs;
-    }
-
-    public void setAbs(String abs) {
-        this.abs = abs == null ? null : abs.trim();
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover == null ? null : cover.trim();
-    }
-
-    public Integer getViews() {
-        return views;
-    }
-
-    public void setViews(Integer views) {
-        this.views = views;
-    }
-
-    public Byte getTop() {
-        return top;
-    }
-
-    public void setTop(Byte top) {
-        this.top = top;
-    }
-
-    public Long getUserSid() {
-        return userSid;
-    }
-
-    public void setUserSid(Long userSid) {
-        this.userSid = userSid;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -113,13 +61,5 @@ public class ArticleDo {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
     }
 }

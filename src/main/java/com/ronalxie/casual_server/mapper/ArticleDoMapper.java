@@ -1,13 +1,10 @@
 package com.ronalxie.casual_server.mapper;
 
 import com.ronalxie.casual_server.entity.ArticleDo;
+import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
-
-public interface ArticleMapper {
-
-
+@Mapper
+public interface ArticleDoMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(ArticleDo record);
