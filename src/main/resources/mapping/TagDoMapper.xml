@@ -18,6 +18,11 @@
     from tag
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAllTags" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List"/>
+        from tag
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tag
     where id = #{id,jdbcType=INTEGER}

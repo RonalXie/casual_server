@@ -1,7 +1,9 @@
 package com.ronalxie.casual_server.mapper;
 
 import com.ronalxie.casual_server.entity.FileDo;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface FileDoMapper {
     int deleteByPrimaryKey(Integer id);
 

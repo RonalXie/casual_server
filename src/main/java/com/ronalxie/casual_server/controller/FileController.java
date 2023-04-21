@@ -12,7 +12,6 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-
     @RequestMapping(value = "/upload/{type}",method = RequestMethod.POST)
     public String upload(@RequestParam("file") MultipartFile multipartFile, @PathVariable("type") String type){
         return fileService.upload(multipartFile,type);

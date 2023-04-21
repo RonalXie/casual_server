@@ -6,6 +6,7 @@
     <result column="sid" jdbcType="BIGINT" property="sid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="bucket" jdbcType="VARCHAR" property="bucket" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="size" jdbcType="VARCHAR" property="size" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="user_sid" jdbcType="BIGINT" property="userSid" />
@@ -14,7 +15,7 @@
     <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, sid, name, bucket, size, url, user_sid, create_time, update_time, delete_time
+    id, sid, `name`, bucket, `type`, `size`, url, user_sid, create_time, update_time, delete_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,13 +29,13 @@
   </delete>
   <insert id="insert" parameterType="com.ronalxie.casual_server.entity.FileDo">
     insert into file (id, sid, name, 
-      bucket, size, url, 
-      user_sid, create_time, update_time, 
-      delete_time)
+      bucket, type, size,
+      url, user_sid, create_time, 
+      update_time, delete_time)
     values (#{id,jdbcType=INTEGER}, #{sid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{bucket,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{userSid,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+      #{bucket,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{userSid,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ronalxie.casual_server.entity.FileDo">
     insert into file
@@ -50,6 +51,9 @@
       </if>
       <if test="bucket != null">
         bucket,
+      </if>
+      <if test="type != null">
+        type,
       </if>
       <if test="size != null">
         size,
@@ -83,6 +87,9 @@
       <if test="bucket != null">
         #{bucket,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
       <if test="size != null">
         #{size,jdbcType=VARCHAR},
       </if>
@@ -115,6 +122,9 @@
       <if test="bucket != null">
         bucket = #{bucket,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
       <if test="size != null">
         size = #{size,jdbcType=VARCHAR},
       </if>
@@ -141,6 +151,7 @@
     set sid = #{sid,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       bucket = #{bucket,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
       size = #{size,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       user_sid = #{userSid,jdbcType=BIGINT},

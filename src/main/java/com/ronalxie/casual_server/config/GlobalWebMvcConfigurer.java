@@ -15,6 +15,4 @@ public class GlobalWebMvcConfigurer implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .maxAge(3600);
     }
-
-
 }

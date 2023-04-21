@@ -11,6 +11,8 @@ public class FileDo {
 
     private String bucket;
 
+    private String type;
+
     private String size;
 
     private String url;
@@ -53,6 +55,14 @@ public class FileDo {
 
     public void setBucket(String bucket) {
         this.bucket = bucket == null ? null : bucket.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public String getSize() {

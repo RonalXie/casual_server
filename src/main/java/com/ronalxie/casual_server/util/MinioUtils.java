@@ -1,15 +1,16 @@
 package com.ronalxie.casual_server.util;
 
+import com.ronalxie.casual_server.entity.FileDo;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 @Component
 public class MinioUtils {
@@ -32,7 +33,7 @@ public class MinioUtils {
 
     }
 
-    public String upload(MultipartFile file,String type) throws IOException {
+    public FileDo upload(MultipartFile file,String type) throws IOException {
         System.out.println(endpoint);
         minioClient = MinioClient.builder().endpoint(endpoint).credentials(accessKey, secretKey).build();
 
@@ -63,7 +64,13 @@ public class MinioUtils {
                 in.close();
             }
         }
-        return endpoint+"/"+bucket+"/"+type+"/"+fileName;
+        FileDo fileDo=new FileDo();
+        fileDo.setName(fileName);
+        fileDo.setType(type);
+        fileDo.setUrl(endpoint+"/"+bucket+"/"+type+"/"+fileName);
+        fileDo.setBucket(bucket);
+        fileDo.setCreateTime(new Date());
+        return fileDo;
 
     }
 

@@ -126,6 +126,13 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertArticleTag" parameterType="com.ronalxie.casual_server.entity.ArticleTagDo">
+    insert into article_tag(sid,article_sid,tag_sid) values (#{sid,jdbcType=INTEGER},
+                                                             #{article_sid,jdbcType=BIGINT},
+                                                             #{tag_sid,jdbcType=BIGINT}
+
+                                                             )
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
     update article
     <set>

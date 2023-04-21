@@ -1,7 +1,12 @@
 package com.ronalxie.casual_server.mapper;
 
 import com.ronalxie.casual_server.entity.TagDo;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
+
+@Mapper
 public interface TagDoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +19,6 @@ public interface TagDoMapper {
     int updateByPrimaryKeySelective(TagDo record);
 
     int updateByPrimaryKey(TagDo record);
+
+    List<TagDo> selectAllTags();
 }

@@ -1,7 +1,9 @@
 package com.ronalxie.casual_server.mapper;
 
 import com.ronalxie.casual_server.entity.ArticleDo;
+import com.ronalxie.casual_server.entity.ArticleTagDo;
 import org.apache.ibatis.annotations.Mapper;
+
 
 @Mapper
 public interface ArticleDoMapper {
@@ -18,4 +20,6 @@ public interface ArticleDoMapper {
     int updateByPrimaryKeyWithBLOBs(ArticleDo record);
 
     int updateByPrimaryKey(ArticleDo record);
+
+    int insertArticleTag(ArticleTagDo articleTagDo);
 }
