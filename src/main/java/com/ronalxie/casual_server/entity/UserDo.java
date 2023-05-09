@@ -13,11 +13,15 @@ public class UserDo {
 
     private String nickname;
 
+    private String intro;
+
     private String avater;
 
     private Byte age;
 
     private Byte sex;
+
+    private String email;
 
     private Date createTime;
 
@@ -65,6 +69,14 @@ public class UserDo {
         this.nickname = nickname == null ? null : nickname.trim();
     }
 
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro == null ? null : intro.trim();
+    }
+
     public String getAvater() {
         return avater;
     }
@@ -87,6 +99,14 @@ public class UserDo {
 
     public void setSex(Byte sex) {
         this.sex = sex;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
     public Date getCreateTime() {

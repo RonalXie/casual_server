@@ -1,17 +1,21 @@
 package com.ronalxie.casual_server.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
 import java.util.Date;
 
-public class TagDo {
+public class StoreDo {
     private Integer id;
 
-    @JsonSerialize(using= ToStringSerializer.class)
     private Long sid;
 
     private String name;
+
+    private Integer size;
+
+    private String url;
+
+    private String path;
+
+    private String type;
 
     private Date createTime;
 
@@ -41,6 +45,38 @@ public class TagDo {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path == null ? null : path.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     public Date getCreateTime() {

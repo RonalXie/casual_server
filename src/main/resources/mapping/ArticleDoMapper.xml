@@ -7,6 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="abs" jdbcType="VARCHAR" property="abs" />
     <result column="cover" jdbcType="VARCHAR" property="cover" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="views" jdbcType="INTEGER" property="views" />
     <result column="top" jdbcType="TINYINT" property="top" />
     <result column="user_sid" jdbcType="BIGINT" property="userSid" />
@@ -14,20 +15,15 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ronalxie.casual_server.entity.ArticleDo">
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
-  </resultMap>
   <sql id="Base_Column_List">
-    id, sid, name, abs, cover, views, top, user_sid, create_time, update_time, delete_time
+    id, sid, `name`, abs, cover, views, top, content,user_sid, create_time, update_time, delete_time
   </sql>
-  <sql id="Blob_Column_List">
-    content
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectPage" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from article limit #{start},#{pageSize};
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from article
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -201,4 +197,13 @@
       delete_time = #{deleteTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getMenus" resultType="com.ronalxie.casual_server.entity.TreeMenuDo">
+    SELECT id,parent_id as parentId,`name`,`key`,parent_key as parentKey FROM tree_menu;
+  </select>
+  <select id="selectTagSids" resultType="java.lang.Long">
+    select tag_sid from article_tag where article_sid=#{articleSid,jdbcType=BIGINT}
+  </select>
+  <select id="selectTotal" resultType="java.lang.Integer">
+    select count(*) from article;
+  </select>
 </mapper>

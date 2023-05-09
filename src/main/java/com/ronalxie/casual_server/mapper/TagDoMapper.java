@@ -21,4 +21,6 @@ public interface TagDoMapper {
     int updateByPrimaryKey(TagDo record);
 
     List<TagDo> selectAllTags();
+
+    List<TagDo> selectBySids(List<Long> sids);
 }

@@ -16,4 +16,6 @@ public interface FileDoMapper {
     int updateByPrimaryKeySelective(FileDo record);
 
     int updateByPrimaryKey(FileDo record);
+
+
 }
