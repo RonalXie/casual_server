@@ -1,8 +1,8 @@
 package com.ronalxie.casual_server.controller;
 
+import com.ronalxie.casual_server.entity.CategoryDo;
 import com.ronalxie.casual_server.entity.RespBean;
-import com.ronalxie.casual_server.entity.TagDo;
-import com.ronalxie.casual_server.service.TagService;
+import com.ronalxie.casual_server.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,20 +12,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tag")
-public class TagController {
+@RequestMapping("/category")
+public class CategoryController {
 
     @Autowired
-    private TagService tagService;
-
+    private CategoryService categoryService;
 
     @RequestMapping(value = "/save",method = RequestMethod.POST)
-    public void save(@RequestBody TagDo tagDo){
-        tagService.save(tagDo);
+    public RespBean save(@RequestBody CategoryDo categoryDo){
+        categoryService.insertCategory(categoryDo);
+        return RespBean.success("保存成功");
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public RespBean listTags(){
-        return RespBean.success("标签列表",tagService.listTags());
+    public RespBean searchList(){
+        List<CategoryDo> categoryDos = categoryService.listCategoies();
+        return RespBean.success("分类列表",categoryDos);
     }
+
 }

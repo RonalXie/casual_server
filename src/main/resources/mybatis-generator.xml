@@ -33,7 +33,8 @@
 <!--        <table tableName="user" domainObjectName="UserDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 <!--        <table tableName="file" domainObjectName="FileDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 <!--        <table tableName="tag" domainObjectName="TagDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
-        <table tableName="store" domainObjectName="StoreDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>
+        <table tableName="category" domainObjectName="CategoryDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>
+<!--        <table tableName="store" domainObjectName="StoreDo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" selectByExampleQueryId="false"/>-->
 
     </context>
 </generatorConfiguration>

@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleTagDo {
+public class ArticleCategoryDo {
 
     private Integer id;
     private Long sid;
     private Long articleSid;
-    private Long tagSid;
+    private Long categorySid;
 }

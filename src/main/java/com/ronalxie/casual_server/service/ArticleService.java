@@ -13,4 +13,6 @@ public interface ArticleService {
 
     public PageBean<ArticleDto> selectPage(String pageNum,String pageSize);
 
+    public ArticleDto selectBySid(long sid);
+
 }

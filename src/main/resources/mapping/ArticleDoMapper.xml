@@ -19,7 +19,7 @@
     id, sid, `name`, abs, cover, views, top, content,user_sid, create_time, update_time, delete_time
   </sql>
   <select id="selectPage" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include> from article limit #{start},#{pageSize};
+    select <include refid="Base_Column_List"></include> from article order by create_time desc limit #{start},#{pageSize};
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -124,12 +124,18 @@
   </insert>
   <insert id="insertArticleTag" parameterType="com.ronalxie.casual_server.entity.ArticleTagDo">
     insert into article_tag(sid,article_sid,tag_sid) values (#{sid,jdbcType=INTEGER},
-                                                             #{article_sid,jdbcType=BIGINT},
-                                                             #{tag_sid,jdbcType=BIGINT}
+                                                             #{articleSid,jdbcType=BIGINT},
+                                                             #{tagSid,jdbcType=BIGINT}
 
                                                              )
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+    <insert id="insertArticleCategory" parameterType="com.ronalxie.casual_server.entity.ArticleCategoryDo">
+      insert into article_category(sid,article_sid,category_sid) values (#{sid,jdbcType=INTEGER},
+                                                               #{articleSid,jdbcType=BIGINT},
+                                                               #{categorySid,jdbcType=BIGINT})
+
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
     update article
     <set>
       <if test="sid != null">
@@ -205,5 +211,11 @@
   </select>
   <select id="selectTotal" resultType="java.lang.Integer">
     select count(*) from article;
+  </select>
+  <select id="selectCategorySid" resultType="java.lang.Long">
+    select category_sid from article_category where article_sid=#{articleSid,jdbcType=BIGINT}
+  </select>
+  <select id="selectBySid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from article where sid=#{sid,jdbcType=BIGINT}
   </select>
 </mapper>

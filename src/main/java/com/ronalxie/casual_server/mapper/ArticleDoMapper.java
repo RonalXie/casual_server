@@ -1,5 +1,6 @@
 package com.ronalxie.casual_server.mapper;
 
+import com.ronalxie.casual_server.entity.ArticleCategoryDo;
 import com.ronalxie.casual_server.entity.ArticleDo;
 import com.ronalxie.casual_server.entity.ArticleTagDo;
 import com.ronalxie.casual_server.entity.TreeMenuDo;
@@ -18,6 +19,8 @@ public interface ArticleDoMapper {
 
     ArticleDo selectByPrimaryKey(Integer id);
 
+    ArticleDo selectBySid(long sid);
+
     int updateByPrimaryKeySelective(ArticleDo record);
 
     int updateByPrimaryKeyWithBLOBs(ArticleDo record);
@@ -26,9 +29,18 @@ public interface ArticleDoMapper {
 
     int insertArticleTag(ArticleTagDo articleTagDo);
 
+
+    int insertArticleCategory(ArticleCategoryDo articleCategoryDo);
+
+
+
+
     List<ArticleDo> selectPage(int start,int pageSize);
 
     List<Long> selectTagSids(Long articleSid);
+
+    Long selectCategorySid(Long articleSid);
+
 
     int selectTotal();
 

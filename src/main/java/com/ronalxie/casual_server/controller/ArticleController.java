@@ -26,9 +26,14 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/select",method = RequestMethod.GET)
-    public RespBean selectPage(@RequestParam("pageNum") String pageNum,@RequestParam("pageSize") String pageSize){
+    public RespBean selectPage(@RequestParam("pageNum") String pageNum,@RequestParam("pageSize") String pageSize) throws InterruptedException {
         PageBean<ArticleDto> articleDoPageBean = articleService.selectPage(pageNum,pageSize);
-        return RespBean.error("查询成功!",articleDoPageBean);
+        return RespBean.success("查询成功!",articleDoPageBean);
+    }
+
+    @RequestMapping(value = "/select/{sid}",method = RequestMethod.POST)
+    public RespBean selectArticle(@PathVariable("sid") String sid){
+        return RespBean.success("文章信息",articleService.selectBySid(Long.parseLong(sid)));
     }
 
 }
