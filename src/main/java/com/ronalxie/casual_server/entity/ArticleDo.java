@@ -15,7 +15,7 @@ public class ArticleDo {
 
     private Integer views;
 
-    private Byte top;
+    private Boolean top;
 
     private Long userSid;
 
@@ -75,11 +75,11 @@ public class ArticleDo {
         this.views = views;
     }
 
-    public Byte getTop() {
+    public Boolean getTop() {
         return top;
     }
 
-    public void setTop(Byte top) {
+    public void setTop(Boolean top) {
         this.top = top;
     }
 

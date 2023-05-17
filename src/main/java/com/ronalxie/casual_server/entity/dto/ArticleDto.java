@@ -31,7 +31,7 @@ public class ArticleDto {
 
     private Integer views;
 
-    private Byte top;
+    private Boolean top;
 
     private Long userSid;
 
