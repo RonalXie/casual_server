@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper
 public interface ArticleDoMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteBySid(Long sid);
 
     int insert(ArticleDo record);
 
@@ -21,7 +21,7 @@ public interface ArticleDoMapper {
 
     ArticleDo selectBySid(long sid);
 
-    int updateByPrimaryKeySelective(ArticleDo record);
+    int updateBySidSelective(ArticleDo record);
 
     int updateByPrimaryKeyWithBLOBs(ArticleDo record);
 
@@ -45,4 +45,18 @@ public interface ArticleDoMapper {
     int selectTotal();
 
     List<TreeMenuDo> getMenus();
+
+    void deleteArticleTag(ArticleTagDo articleTagDo);
+
+    void deleteArticleCategory(ArticleCategoryDo articleCategoryDo);
+
+    void updateArticleTag(ArticleTagDo articleTagDo);
+
+    void updateArticleCategory(ArticleCategoryDo articleCategoryDo);
+
+    List<ArticleTagDo> selectArticleTag(ArticleTagDo articleTagDo);
+
+    List<ArticleCategoryDo> selectArticleCategory(ArticleCategoryDo articleCategoryDo);
+
+
 }

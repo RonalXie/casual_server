@@ -24,9 +24,9 @@
   <select id="selectBySid" resultType="com.ronalxie.casual_server.entity.CategoryDo">
     select <include refid="Base_Column_List"></include> from category where sid=#{sid,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteBySid" parameterType="long">
     delete from category
-    where id = #{id,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.ronalxie.casual_server.entity.CategoryDo">
     insert into category (id, sid, name, 
@@ -79,12 +79,9 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ronalxie.casual_server.entity.CategoryDo">
+  <update id="updateBySidSelective" parameterType="com.ronalxie.casual_server.entity.CategoryDo">
     update category
     <set>
-      <if test="sid != null">
-        sid = #{sid,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         `name` = #{name,jdbcType=VARCHAR},
       </if>
@@ -98,7 +95,7 @@
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ronalxie.casual_server.entity.CategoryDo">
     update category

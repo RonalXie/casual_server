@@ -1,7 +1,14 @@
 package com.ronalxie.casual_server.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CategoryDo {
     private Integer id;
 

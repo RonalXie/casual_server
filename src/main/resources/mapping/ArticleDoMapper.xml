@@ -27,9 +27,33 @@
     from article
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteBySid" parameterType="long">
     delete from article
-    where id = #{id,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteArticleTag" parameterType="com.ronalxie.casual_server.entity.ArticleTagDo">
+    delete from article_tag where
+    <if test="articleSid!= null and tagSid==null">
+      article_sid=#{articleSid,jdbcType=BIGINT}
+    </if>
+    <if test="tagSid!=null and articleSid==null">
+      tag_sid=#{tagSid,jdbcType=BIGINT}
+    </if>
+    <if test="articleSid!= null and tagSid!=null">
+      article_sid=#{articleSid,jdbcType=BIGINT} and tag_sid=#{tagSid,jdbcType=BIGINT}
+    </if>
+  </delete>
+  <delete id="deleteArticleCategory" parameterType="com.ronalxie.casual_server.entity.ArticleCategoryDo">
+    delete from article_category where
+    <if test="articleSid!= null and categorySid==null">
+      article_sid =#{articleSid,jdbcType=BIGINT}
+    </if>
+    <if test="categorySid!=null and articleSid==null">
+      category_sid=#{categorySid,jdbcType=BIGINT}
+    </if>
+    <if test="articleSid!= null and categorySid!=null">
+      article_sid=#{articleSid,jdbcType=BIGINT} and category_sid=#{categorySid,jdbcType=BIGINT}
+    </if>
   </delete>
   <insert id="insert" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
     insert into article (id, sid, name, 
@@ -135,12 +159,9 @@
                                                                #{categorySid,jdbcType=BIGINT})
 
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+    <update id="updateBySidSelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
     update article
     <set>
-      <if test="sid != null">
-        sid = #{sid,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -172,7 +193,7 @@
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
     update article
@@ -203,6 +224,18 @@
       delete_time = #{deleteTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateArticleTag">
+    update article_tag
+    set tag_sid=#{tagSid,jdbcType=BIGINT}
+    where sid=#{sid,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateArticleCategory">
+    update article_category
+    set category_sid=#{categorySid,jdbcType=BIGINT}
+    where sid=#{sid,jdbcType=BIGINT}
+  </update>
+
   <select id="getMenus" resultType="com.ronalxie.casual_server.entity.TreeMenuDo">
     SELECT id,parent_id as parentId,`name`,`key`,parent_key as parentKey FROM tree_menu;
   </select>
@@ -217,5 +250,30 @@
   </select>
   <select id="selectBySid" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"></include> from article where sid=#{sid,jdbcType=BIGINT}
+  </select>
+  <select id="selectArticleTag" resultType="com.ronalxie.casual_server.entity.ArticleTagDo">
+    select sid from article_tag where
+    <if test="articleSid != null and tagSid==null">
+      article_sid=#{articleSid,jdbcType=BIGINT}
+    </if>
+    <if test="tagSid!=null and articleSid==null">
+      tag_sid=#{tagSid,jdbcType=BIGINT}
+    </if>
+    <if test="articleSid != null and tagSid!=null">
+      where article_sid=#{articleSid,jdbcType=BIGINT} and tag_sid=#{tagSid,jdbcType=BIGINT}
+    </if>
+  </select>
+
+  <select id="selectArticleCategory" resultType="com.ronalxie.casual_server.entity.ArticleCategoryDo">
+    select sid from  article_category where
+    <if test="articleSid!= null and categorySid==null">
+        article_sid=#{articleSid,jdbcType=BIGINT}
+    </if>
+    <if test="categorySid!=null and articleSid==null">
+       category_sid=#{categorySid,jdbcType=BIGINT}
+    </if>
+    <if test="articleSid!= null and categorySid!=null">
+    article_sid=#{articleSid,jdbcType=BIGINT} and category_sid=#{categorySid,jdbcType=BIGINT}
+    </if>
   </select>
 </mapper>

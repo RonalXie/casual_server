@@ -15,4 +15,8 @@ public interface ArticleService {
 
     public ArticleDto selectBySid(long sid);
 
+    public void updateBySid(ArticleDto articleDto);
+
+    public void deleteBySid(long sid);
+
 }

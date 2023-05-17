@@ -36,4 +36,15 @@ public class ArticleController {
         return RespBean.success("文章信息",articleService.selectBySid(Long.parseLong(sid)));
     }
 
+    @RequestMapping(value = "/delete/{sid}",method = RequestMethod.POST)
+    public RespBean deleteArticle(@PathVariable String sid){
+        articleService.deleteBySid(Long.parseLong(sid));
+        return RespBean.success("删除成功");
+    }
+
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    public RespBean updateArticle(@RequestBody ArticleDto articleDto){
+        articleService.updateBySid(articleDto);
+        return RespBean.success("更新成功");
+    }
 }

@@ -33,10 +33,10 @@
         </foreach>
 
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteBySid" parameterType="long">
         delete
         from tag
-        where id = #{id,jdbcType=INTEGER}
+        where sid = #{sid,jdbcType=BIGINT}
     </delete>
     <insert id="insert" parameterType="com.ronalxie.casual_server.entity.TagDo">
         insert into tag (id, sid, name,
@@ -87,12 +87,9 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.ronalxie.casual_server.entity.TagDo">
+    <update id="updateBySidSelective" parameterType="com.ronalxie.casual_server.entity.TagDo">
         update tag
         <set>
-            <if test="sid != null">
-                sid = #{sid,jdbcType=BIGINT},
-            </if>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
             </if>
@@ -106,7 +103,7 @@
                 delete_time = #{deleteTime,jdbcType=TIMESTAMP},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where sid = #{sid,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.ronalxie.casual_server.entity.TagDo">
         update tag

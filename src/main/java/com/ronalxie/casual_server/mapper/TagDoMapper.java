@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface TagDoMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteBySid(Long id);
 
     int insert(TagDo record);
 
@@ -16,7 +16,7 @@ public interface TagDoMapper {
 
     TagDo selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(TagDo record);
+    int updateBySidSelective(TagDo record);
 
     int updateByPrimaryKey(TagDo record);
 

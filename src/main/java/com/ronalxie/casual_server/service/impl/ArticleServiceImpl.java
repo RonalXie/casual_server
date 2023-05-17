@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.List;
@@ -72,15 +73,19 @@ public class ArticleServiceImpl implements ArticleService {
         List<ArticleDto> articleDtoList=new ArrayList<>();
         for (ArticleDo article:
              articleDos) {
+            ArticleDto articleDto=new ArticleDto();
             //处理标签
             List<Long> tagSids = articleDoMapper.selectTagSids(article.getSid());
-            List<TagDo> tagDos = tagDoMapper.selectBySids(tagSids);
+            System.out.println(tagSids.toString());
+
+            if (tagSids.size()!=0){
+                List<TagDo> tagDos = tagDoMapper.selectBySids(tagSids);
+                articleDto.setTags(tagDos);
+            }
             //处理分类
             Long categorySid = articleDoMapper.selectCategorySid(article.getSid());
             CategoryDo categoryDo = categoryDoMapper.selectBySid(categorySid);
-            ArticleDto articleDto=new ArticleDto();
             BeanUtils.copyProperties(article,articleDto);
-            articleDto.setTags(tagDos);
             articleDto.setCategory(categoryDo);
             articleDtoList.add(articleDto);
         }
@@ -107,5 +112,65 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDto;
     }
 
+    @Override
+    @Transactional
+    public void updateBySid(ArticleDto articleDto) {
+        ArticleDo articleDo=new ArticleDo();
+        BeanUtils.copyProperties(articleDto,articleDo);
+        articleDo.setUpdateTime(new Date());
+        articleDoMapper.updateBySidSelective(articleDo);
+        //更新分类关联表
+        ArticleCategoryDo articleCategoryDo=new ArticleCategoryDo();
+        articleCategoryDo.setArticleSid(articleDto.getSid());
+        articleDoMapper.deleteArticleCategory(articleCategoryDo);
+        articleCategoryDo.setCategorySid(articleDto.getCategorySid());
+        articleCategoryDo.setSid(IDUtils.nextId());
+        articleDoMapper.insertArticleCategory(articleCategoryDo);
+        //更新标签
+        ArticleTagDo articleTagDo=new ArticleTagDo();
+        articleTagDo.setArticleSid(articleDto.getSid());
+        articleDoMapper.deleteArticleTag(articleTagDo);
+        List<Long> tagSids = articleDto.getTagSids();
+        if (tagSids.size()!=0) {
+            for (Long tagSid : tagSids) {
+                articleTagDo.setTagSid(tagSid);
+                articleTagDo.setSid(IDUtils.nextId());
+                articleDoMapper.insertArticleTag(articleTagDo);
+            }
+        }
 
+//        ArticleCategoryDo articleCategoryDo=new ArticleCategoryDo();
+//        articleCategoryDo.setArticleSid(articleDto.getSid());
+//        List<ArticleCategoryDo> articleCategoryDos = articleDoMapper.selectArticleCategory(articleCategoryDo);
+//        for (ArticleCategoryDo item:articleCategoryDos
+//             ) {
+//            item.setCategorySid(articleDto.getCategorySid());
+//            articleDoMapper.updateArticleCategory(item);
+//        }
+        //更新标签关联表
+//        List<Long> tagSids = articleDto.getTagSids();
+//        if (!ObjectUtils.isEmpty(tagSids)){
+//            ArticleTagDo articleTagDo=new ArticleTagDo();
+//            articleTagDo.setArticleSid(articleDto.getSid());
+//            List<ArticleTagDo> articleTagDos = articleDoMapper.selectArticleTag(articleTagDo);
+//            for (ArticleTagDo item:articleTagDos) {
+//                for (long tagSid:tagSids
+//                ) {
+//                    item.setTagSid(tagSid);
+//                    articleDoMapper.updateArticleTag(item);
+//                }
+//            }
+//        }
+    }
+    @Override
+    @Transactional
+    public void deleteBySid(long sid) {
+        articleDoMapper.deleteBySid(sid);
+        ArticleTagDo articleTagDo=new ArticleTagDo();
+        ArticleCategoryDo articleCategoryDo=new ArticleCategoryDo();
+        articleTagDo.setArticleSid(sid);
+        articleCategoryDo.setArticleSid(sid);
+        articleDoMapper.deleteArticleTag(articleTagDo);
+        articleDoMapper.deleteArticleCategory(articleCategoryDo);
+    }
 }

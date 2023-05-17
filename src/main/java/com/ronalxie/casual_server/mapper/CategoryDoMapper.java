@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface CategoryDoMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteBySid(Long id);
 
     int insert(CategoryDo record);
 
@@ -17,7 +17,7 @@ public interface CategoryDoMapper {
 
     CategoryDo selectBySid(Long sid);
 
-    int updateByPrimaryKeySelective(CategoryDo record);
+    int updateBySidSelective(CategoryDo record);
 
     int updateByPrimaryKey(CategoryDo record);
 
