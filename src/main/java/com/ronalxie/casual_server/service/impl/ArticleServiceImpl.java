@@ -65,32 +65,33 @@ public class ArticleServiceImpl implements ArticleService {
      * @return
      */
     @Override
-    public PageBean<ArticleDto> selectPage(String pageNum,String pageSize) {
-        int pageNumInt = Integer.parseInt(pageNum);
-        int pageSizeInt = Integer.parseInt(pageSize);
-        int start=(pageNumInt-1)*pageSizeInt;
-        List<ArticleDo> articleDos = articleDoMapper.selectPage(start, pageSizeInt);
+    public PageBean<ArticleDto> selectPage(PageParam pageParam, ArticleDto articleDto) {
+        int pageNum = pageParam.getPageNum();
+        int pageSize = pageParam.getPageSize();
+        int start=(pageNum-1)*pageSize;
+        if (ObjectUtils.isEmpty(articleDto)){
+            articleDto=new ArticleDto();
+        }
+        List<ArticleDo> articleDos = articleDoMapper.selectPage(start,pageSize,articleDto);
         List<ArticleDto> articleDtoList=new ArrayList<>();
         for (ArticleDo article:
              articleDos) {
-            ArticleDto articleDto=new ArticleDto();
+            ArticleDto articleTemp=new ArticleDto();
             //处理标签
             List<Long> tagSids = articleDoMapper.selectTagSids(article.getSid());
-            System.out.println(tagSids.toString());
-
             if (tagSids.size()!=0){
                 List<TagDo> tagDos = tagDoMapper.selectBySids(tagSids);
-                articleDto.setTags(tagDos);
+                articleTemp.setTags(tagDos);
             }
             //处理分类
             Long categorySid = articleDoMapper.selectCategorySid(article.getSid());
             CategoryDo categoryDo = categoryDoMapper.selectBySid(categorySid);
-            BeanUtils.copyProperties(article,articleDto);
-            articleDto.setCategory(categoryDo);
-            articleDtoList.add(articleDto);
+            BeanUtils.copyProperties(article,articleTemp);
+            articleTemp.setCategory(categoryDo);
+            articleDtoList.add(articleTemp);
         }
-        int total=articleDoMapper.selectTotal();
-        return new PageBean<>(pageNumInt,pageSizeInt,total,articleDtoList);
+        int total=articleDoMapper.selectTotal(articleDto);
+        return new PageBean<>(pageNum,pageSize,total,articleDtoList);
     }
 
     @Override
@@ -138,29 +139,6 @@ public class ArticleServiceImpl implements ArticleService {
                 articleDoMapper.insertArticleTag(articleTagDo);
             }
         }
-
-//        ArticleCategoryDo articleCategoryDo=new ArticleCategoryDo();
-//        articleCategoryDo.setArticleSid(articleDto.getSid());
-//        List<ArticleCategoryDo> articleCategoryDos = articleDoMapper.selectArticleCategory(articleCategoryDo);
-//        for (ArticleCategoryDo item:articleCategoryDos
-//             ) {
-//            item.setCategorySid(articleDto.getCategorySid());
-//            articleDoMapper.updateArticleCategory(item);
-//        }
-        //更新标签关联表
-//        List<Long> tagSids = articleDto.getTagSids();
-//        if (!ObjectUtils.isEmpty(tagSids)){
-//            ArticleTagDo articleTagDo=new ArticleTagDo();
-//            articleTagDo.setArticleSid(articleDto.getSid());
-//            List<ArticleTagDo> articleTagDos = articleDoMapper.selectArticleTag(articleTagDo);
-//            for (ArticleTagDo item:articleTagDos) {
-//                for (long tagSid:tagSids
-//                ) {
-//                    item.setTagSid(tagSid);
-//                    articleDoMapper.updateArticleTag(item);
-//                }
-//            }
-//        }
     }
     @Override
     @Transactional
@@ -172,5 +150,11 @@ public class ArticleServiceImpl implements ArticleService {
         articleCategoryDo.setArticleSid(sid);
         articleDoMapper.deleteArticleTag(articleTagDo);
         articleDoMapper.deleteArticleCategory(articleCategoryDo);
+    }
+
+    @Override
+    public List<ArticleDo> selectHot() {
+
+        return articleDoMapper.selectHot();
     }
 }

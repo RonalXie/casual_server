@@ -4,6 +4,7 @@ import com.ronalxie.casual_server.entity.ArticleCategoryDo;
 import com.ronalxie.casual_server.entity.ArticleDo;
 import com.ronalxie.casual_server.entity.ArticleTagDo;
 import com.ronalxie.casual_server.entity.TreeMenuDo;
+import com.ronalxie.casual_server.entity.dto.ArticleDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -35,14 +36,14 @@ public interface ArticleDoMapper {
 
 
 
-    List<ArticleDo> selectPage(int start,int pageSize);
+    List<ArticleDo> selectPage(int start, int pageSize, ArticleDto articleDto);
 
     List<Long> selectTagSids(Long articleSid);
 
     Long selectCategorySid(Long articleSid);
 
 
-    int selectTotal();
+    int selectTotal(ArticleDto articleDto);
 
     List<TreeMenuDo> getMenus();
 
@@ -59,4 +60,5 @@ public interface ArticleDoMapper {
     List<ArticleCategoryDo> selectArticleCategory(ArticleCategoryDo articleCategoryDo);
 
 
+    List<ArticleDo> selectHot();
 }

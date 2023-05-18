@@ -33,6 +33,22 @@
         </foreach>
 
     </select>
+    <select id="selectPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from tag
+        where 1=1
+        <if test="tagDo.name!=null">
+        and name like concat('%',#{tagDo.name,jdbcType=VARCHAR},'%')
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="selectTotal" resultType="int" parameterType="com.ronalxie.casual_server.entity.TagDo">
+        select count(*) from tag
+        where 1=1
+        <if test="name!=null">
+            and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+        </if>
+    </select>
     <delete id="deleteBySid" parameterType="long">
         delete
         from tag

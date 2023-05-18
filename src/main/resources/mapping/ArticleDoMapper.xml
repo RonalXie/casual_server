@@ -1,279 +1,327 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronalxie.casual_server.mapper.ArticleDoMapper">
-  <resultMap id="BaseResultMap" type="com.ronalxie.casual_server.entity.ArticleDo">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="sid" jdbcType="BIGINT" property="sid" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="abs" jdbcType="VARCHAR" property="abs" />
-    <result column="cover" jdbcType="VARCHAR" property="cover" />
-    <result column="content" jdbcType="LONGVARCHAR" property="content" />
-    <result column="views" jdbcType="INTEGER" property="views" />
-    <result column="top" jdbcType="TINYINT" property="top" />
-    <result column="user_sid" jdbcType="BIGINT" property="userSid" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, sid, `name`, abs, cover, views, top, content,user_sid, create_time, update_time, delete_time
-  </sql>
-  <select id="selectPage" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include> from article order by create_time desc limit #{start},#{pageSize};
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from article
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteBySid" parameterType="long">
-    delete from article
-    where sid = #{sid,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteArticleTag" parameterType="com.ronalxie.casual_server.entity.ArticleTagDo">
-    delete from article_tag where
-    <if test="articleSid!= null and tagSid==null">
-      article_sid=#{articleSid,jdbcType=BIGINT}
-    </if>
-    <if test="tagSid!=null and articleSid==null">
-      tag_sid=#{tagSid,jdbcType=BIGINT}
-    </if>
-    <if test="articleSid!= null and tagSid!=null">
-      article_sid=#{articleSid,jdbcType=BIGINT} and tag_sid=#{tagSid,jdbcType=BIGINT}
-    </if>
-  </delete>
-  <delete id="deleteArticleCategory" parameterType="com.ronalxie.casual_server.entity.ArticleCategoryDo">
-    delete from article_category where
-    <if test="articleSid!= null and categorySid==null">
-      article_sid =#{articleSid,jdbcType=BIGINT}
-    </if>
-    <if test="categorySid!=null and articleSid==null">
-      category_sid=#{categorySid,jdbcType=BIGINT}
-    </if>
-    <if test="articleSid!= null and categorySid!=null">
-      article_sid=#{articleSid,jdbcType=BIGINT} and category_sid=#{categorySid,jdbcType=BIGINT}
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
-    insert into article (id, sid, name, 
-      abs, cover, views, 
-      top, user_sid, create_time, 
-      update_time, delete_time, content
-      )
-    values (#{id,jdbcType=INTEGER}, #{sid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{abs,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER}, 
-      #{top,jdbcType=TINYINT}, #{userSid,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
-    insert into article
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="sid != null">
-        sid,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="abs != null">
-        abs,
-      </if>
-      <if test="cover != null">
-        cover,
-      </if>
-      <if test="views != null">
-        views,
-      </if>
-      <if test="top != null">
-        top,
-      </if>
-      <if test="userSid != null">
-        user_sid,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="deleteTime != null">
-        delete_time,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        #{sid,jdbcType=BIGINT},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="abs != null">
-        #{abs,jdbcType=VARCHAR},
-      </if>
-      <if test="cover != null">
-        #{cover,jdbcType=VARCHAR},
-      </if>
-      <if test="views != null">
-        #{views,jdbcType=INTEGER},
-      </if>
-      <if test="top != null">
-        #{top,jdbcType=TINYINT},
-      </if>
-      <if test="userSid != null">
-        #{userSid,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deleteTime != null">
-        #{deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <insert id="insertArticleTag" parameterType="com.ronalxie.casual_server.entity.ArticleTagDo">
-    insert into article_tag(sid,article_sid,tag_sid) values (#{sid,jdbcType=INTEGER},
-                                                             #{articleSid,jdbcType=BIGINT},
-                                                             #{tagSid,jdbcType=BIGINT}
-
-                                                             )
-  </insert>
+    <resultMap id="BaseResultMap" type="com.ronalxie.casual_server.entity.ArticleDo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sid" jdbcType="BIGINT" property="sid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="abs" jdbcType="VARCHAR" property="abs"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="views" jdbcType="INTEGER" property="views"/>
+        <result column="top" jdbcType="TINYINT" property="top"/>
+        <result column="user_sid" jdbcType="BIGINT" property="userSid"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , sid, `name`, abs, cover, views, top, content,user_sid, create_time, update_time, delete_time
+    </sql>
+    <select id="selectPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from article
+        where 1=1
+        <if test="articleDto.name != null">
+            and name like concat('%',#{articleDto.name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="articleDto.top != null">
+            and top = #{articleDto.top,jdbcType=TINYINT}
+        </if>
+        <if test="articleDto.createTime != null">
+            and create_time = #{articleDto.createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="articleDto.updateTime != null">
+            and update_time = #{articleDto.updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="articleDto.deleteTime != null">
+            and delete_time = #{articleDto.deleteTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="articleDto.content != null">
+            and content = #{articleDto.content,jdbcType=LONGVARCHAR}
+        </if>
+        order by create_time desc
+        limit #{start},#{pageSize};
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from article
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteBySid" parameterType="long">
+        delete
+        from article
+        where sid = #{sid,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteArticleTag" parameterType="com.ronalxie.casual_server.entity.ArticleTagDo">
+        delete from article_tag where
+        <if test="articleSid!= null and tagSid==null">
+            article_sid=#{articleSid,jdbcType=BIGINT}
+        </if>
+        <if test="tagSid!=null and articleSid==null">
+            tag_sid=#{tagSid,jdbcType=BIGINT}
+        </if>
+        <if test="articleSid!= null and tagSid!=null">
+            article_sid=#{articleSid,jdbcType=BIGINT} and tag_sid=#{tagSid,jdbcType=BIGINT}
+        </if>
+    </delete>
+    <delete id="deleteArticleCategory" parameterType="com.ronalxie.casual_server.entity.ArticleCategoryDo">
+        delete from article_category where
+        <if test="articleSid!= null and categorySid==null">
+            article_sid =#{articleSid,jdbcType=BIGINT}
+        </if>
+        <if test="categorySid!=null and articleSid==null">
+            category_sid=#{categorySid,jdbcType=BIGINT}
+        </if>
+        <if test="articleSid!= null and categorySid!=null">
+            article_sid=#{articleSid,jdbcType=BIGINT} and category_sid=#{categorySid,jdbcType=BIGINT}
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+        insert into article (id, sid, name,
+                             abs, cover, views,
+                             top, user_sid, create_time,
+                             update_time, delete_time, content)
+        values (#{id,jdbcType=INTEGER}, #{sid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+                #{abs,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{views,jdbcType=INTEGER},
+                #{top,jdbcType=TINYINT}, #{userSid,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+        insert into article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="sid != null">
+                sid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="abs != null">
+                abs,
+            </if>
+            <if test="cover != null">
+                cover,
+            </if>
+            <if test="views != null">
+                views,
+            </if>
+            <if test="top != null">
+                top,
+            </if>
+            <if test="userSid != null">
+                user_sid,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleteTime != null">
+                delete_time,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="sid != null">
+                #{sid,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="abs != null">
+                #{abs,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null">
+                #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="views != null">
+                #{views,jdbcType=INTEGER},
+            </if>
+            <if test="top != null">
+                #{top,jdbcType=TINYINT},
+            </if>
+            <if test="userSid != null">
+                #{userSid,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteTime != null">
+                #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertArticleTag" parameterType="com.ronalxie.casual_server.entity.ArticleTagDo">
+        insert into article_tag(sid, article_sid, tag_sid)
+        values (#{sid,jdbcType=INTEGER},
+                #{articleSid,jdbcType=BIGINT},
+                #{tagSid,jdbcType=BIGINT})
+    </insert>
     <insert id="insertArticleCategory" parameterType="com.ronalxie.casual_server.entity.ArticleCategoryDo">
-      insert into article_category(sid,article_sid,category_sid) values (#{sid,jdbcType=INTEGER},
-                                                               #{articleSid,jdbcType=BIGINT},
-                                                               #{categorySid,jdbcType=BIGINT})
+        insert into article_category(sid, article_sid, category_sid)
+        values (#{sid,jdbcType=INTEGER},
+                #{articleSid,jdbcType=BIGINT},
+                #{categorySid,jdbcType=BIGINT})
 
     </insert>
     <update id="updateBySidSelective" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
-    update article
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="abs != null">
-        abs = #{abs,jdbcType=VARCHAR},
-      </if>
-      <if test="cover != null">
-        cover = #{cover,jdbcType=VARCHAR},
-      </if>
-      <if test="views != null">
-        views = #{views,jdbcType=INTEGER},
-      </if>
-      <if test="top != null">
-        top = #{top,jdbcType=TINYINT},
-      </if>
-      <if test="userSid != null">
-        user_sid = #{userSid,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deleteTime != null">
-        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where sid = #{sid,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
-    update article
-    set sid = #{sid,jdbcType=BIGINT},
-      name = #{name,jdbcType=VARCHAR},
-      abs = #{abs,jdbcType=VARCHAR},
-      cover = #{cover,jdbcType=VARCHAR},
-      views = #{views,jdbcType=INTEGER},
-      top = #{top,jdbcType=TINYINT},
-      user_sid = #{userSid,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
-    update article
-    set sid = #{sid,jdbcType=BIGINT},
-      name = #{name,jdbcType=VARCHAR},
-      abs = #{abs,jdbcType=VARCHAR},
-      cover = #{cover,jdbcType=VARCHAR},
-      views = #{views,jdbcType=INTEGER},
-      top = #{top,jdbcType=TINYINT},
-      user_sid = #{userSid,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateArticleTag">
-    update article_tag
-    set tag_sid=#{tagSid,jdbcType=BIGINT}
-    where sid=#{sid,jdbcType=BIGINT}
-  </update>
+        update article
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="abs != null">
+                abs = #{abs,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null">
+                cover = #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="views != null">
+                views = #{views,jdbcType=INTEGER},
+            </if>
+            <if test="top != null">
+                top = #{top,jdbcType=TINYINT},
+            </if>
+            <if test="userSid != null">
+                user_sid = #{userSid,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteTime != null">
+                delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where sid = #{sid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+        update article
+        set sid         = #{sid,jdbcType=BIGINT},
+            name        = #{name,jdbcType=VARCHAR},
+            abs         = #{abs,jdbcType=VARCHAR},
+            cover       = #{cover,jdbcType=VARCHAR},
+            views       = #{views,jdbcType=INTEGER},
+            top         = #{top,jdbcType=TINYINT},
+            user_sid    = #{userSid,jdbcType=BIGINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            content     = #{content,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ronalxie.casual_server.entity.ArticleDo">
+        update article
+        set sid         = #{sid,jdbcType=BIGINT},
+            name        = #{name,jdbcType=VARCHAR},
+            abs         = #{abs,jdbcType=VARCHAR},
+            cover       = #{cover,jdbcType=VARCHAR},
+            views       = #{views,jdbcType=INTEGER},
+            top         = #{top,jdbcType=TINYINT},
+            user_sid    = #{userSid,jdbcType=BIGINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateArticleTag">
+        update article_tag
+        set tag_sid=#{tagSid,jdbcType=BIGINT}
+        where sid = #{sid,jdbcType=BIGINT}
+    </update>
 
-  <update id="updateArticleCategory">
-    update article_category
-    set category_sid=#{categorySid,jdbcType=BIGINT}
-    where sid=#{sid,jdbcType=BIGINT}
-  </update>
+    <update id="updateArticleCategory">
+        update article_category
+        set category_sid=#{categorySid,jdbcType=BIGINT}
+        where sid = #{sid,jdbcType=BIGINT}
+    </update>
 
-  <select id="getMenus" resultType="com.ronalxie.casual_server.entity.TreeMenuDo">
-    SELECT id,parent_id as parentId,`name`,`key`,parent_key as parentKey FROM tree_menu;
-  </select>
-  <select id="selectTagSids" resultType="java.lang.Long">
-    select tag_sid from article_tag where article_sid=#{articleSid,jdbcType=BIGINT}
-  </select>
-  <select id="selectTotal" resultType="java.lang.Integer">
-    select count(*) from article;
-  </select>
-  <select id="selectCategorySid" resultType="java.lang.Long">
-    select category_sid from article_category where article_sid=#{articleSid,jdbcType=BIGINT}
-  </select>
-  <select id="selectBySid" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include> from article where sid=#{sid,jdbcType=BIGINT}
-  </select>
-  <select id="selectArticleTag" resultType="com.ronalxie.casual_server.entity.ArticleTagDo">
-    select sid from article_tag where
-    <if test="articleSid != null and tagSid==null">
-      article_sid=#{articleSid,jdbcType=BIGINT}
-    </if>
-    <if test="tagSid!=null and articleSid==null">
-      tag_sid=#{tagSid,jdbcType=BIGINT}
-    </if>
-    <if test="articleSid != null and tagSid!=null">
-      where article_sid=#{articleSid,jdbcType=BIGINT} and tag_sid=#{tagSid,jdbcType=BIGINT}
-    </if>
-  </select>
+    <select id="getMenus" resultType="com.ronalxie.casual_server.entity.TreeMenuDo">
+        SELECT id, parent_id as parentId, `name`, `key`, parent_key as parentKey
+        FROM tree_menu;
+    </select>
+    <select id="selectTagSids" resultType="java.lang.Long">
+        select tag_sid
+        from article_tag
+        where article_sid = #{articleSid,jdbcType=BIGINT}
+    </select>
+    <select id="selectTotal" resultType="java.lang.Integer"
+            parameterType="com.ronalxie.casual_server.entity.dto.ArticleDto">
+        select count(*) from article where 1=1
+        <if test="name != null">
+            and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="top != null">
+            and top = #{top,jdbcType=TINYINT}
+        </if>
+        <if test="createTime != null">
+            and create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="deleteTime != null">
+            and delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="content != null">
+            and content = #{content,jdbcType=LONGVARCHAR}
+        </if>
+    </select>
+    <select id="selectCategorySid" resultType="java.lang.Long">
+        select category_sid
+        from article_category
+        where article_sid = #{articleSid,jdbcType=BIGINT}
+    </select>
+    <select id="selectBySid" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from article where sid=#{sid,jdbcType=BIGINT}
+    </select>
+    <select id="selectArticleTag" resultType="com.ronalxie.casual_server.entity.ArticleTagDo">
+        select sid from article_tag where
+        <if test="articleSid != null and tagSid==null">
+            article_sid=#{articleSid,jdbcType=BIGINT}
+        </if>
+        <if test="tagSid!=null and articleSid==null">
+            tag_sid=#{tagSid,jdbcType=BIGINT}
+        </if>
+        <if test="articleSid != null and tagSid!=null">
+            where article_sid=#{articleSid,jdbcType=BIGINT} and tag_sid=#{tagSid,jdbcType=BIGINT}
+        </if>
+    </select>
 
-  <select id="selectArticleCategory" resultType="com.ronalxie.casual_server.entity.ArticleCategoryDo">
-    select sid from  article_category where
-    <if test="articleSid!= null and categorySid==null">
-        article_sid=#{articleSid,jdbcType=BIGINT}
-    </if>
-    <if test="categorySid!=null and articleSid==null">
-       category_sid=#{categorySid,jdbcType=BIGINT}
-    </if>
-    <if test="articleSid!= null and categorySid!=null">
-    article_sid=#{articleSid,jdbcType=BIGINT} and category_sid=#{categorySid,jdbcType=BIGINT}
-    </if>
-  </select>
+    <select id="selectArticleCategory" resultType="com.ronalxie.casual_server.entity.ArticleCategoryDo">
+        select sid from article_category where
+        <if test="articleSid!= null and categorySid==null">
+            article_sid=#{articleSid,jdbcType=BIGINT}
+        </if>
+        <if test="categorySid!=null and articleSid==null">
+            category_sid=#{categorySid,jdbcType=BIGINT}
+        </if>
+        <if test="articleSid!= null and categorySid!=null">
+            article_sid=#{articleSid,jdbcType=BIGINT} and category_sid=#{categorySid,jdbcType=BIGINT}
+        </if>
+    </select>
+    <select id="selectHot" resultType="com.ronalxie.casual_server.entity.ArticleDo">
+        select <include refid="Base_Column_List"></include> from article order by views desc limit 0,10
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.ronalxie.casual_server.mapper;
 
+import com.ronalxie.casual_server.entity.ArticleDo;
 import com.ronalxie.casual_server.entity.TagDo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,4 +24,10 @@ public interface TagDoMapper {
     List<TagDo> selectAllTags();
 
     List<TagDo> selectBySids(List<Long> sids);
+
+    List<TagDo> selectPage(int start, int pageSize, TagDo tagDo);
+    int selectTotal(TagDo tagDo);
+
+
+
 }
