@@ -22,4 +22,8 @@ public interface CategoryDoMapper {
     int updateByPrimaryKey(CategoryDo record);
 
     List<CategoryDo> listCategories();
+
+    List<CategoryDo> selectPage(int start, int pageSize, CategoryDo categoryDo);
+
+    int selectTotal(CategoryDo categoryDo);
 }

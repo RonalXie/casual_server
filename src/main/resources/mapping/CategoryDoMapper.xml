@@ -24,6 +24,21 @@
   <select id="selectBySid" resultType="com.ronalxie.casual_server.entity.CategoryDo">
     select <include refid="Base_Column_List"></include> from category where sid=#{sid,jdbcType=BIGINT}
   </select>
+  <select id="selectPage" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include> from category
+    where 1=1
+    <if test="categoryDo.name!=null">
+      and name like concat('%',#{categoryDo.name,jdbcType=VARCHAR},'%')
+    </if>
+    order by create_time desc
+  </select>
+  <select id="selectTotal" resultType="java.lang.Integer">
+    select count(*) from category
+    where 1=1
+    <if test="name!=null">
+      and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
   <delete id="deleteBySid" parameterType="long">
     delete from category
     where sid = #{sid,jdbcType=BIGINT}
